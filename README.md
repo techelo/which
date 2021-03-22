@@ -79,6 +79,7 @@ The model can be evaluated as follows on the {language} test data of Common Voic
 ```python
 !mkdir cer
 !wget -O cer/cer.py https://huggingface.co/ctl/wav2vec2-large-xlsr-cantonese/raw/main/cer.py
+!pip install jiwer
 import torch
 import torchaudio
 from datasets import load_dataset, load_metric
@@ -95,7 +96,7 @@ test_dataset = load_dataset("common_voice", f"{lang_id}", split="test")
 cer = load_metric("./cer")
 
 processor = Wav2Vec2Processor.from_pretrained(f"{model_id}") 
-model = Wav2Vec2ForCTC.from_pretrained(f"{model_path}") 
+model = Wav2Vec2ForCTC.from_pretrained(f"{model_id}") 
 model.to("cuda")
 
 resampler = torchaudio.transforms.Resample(48_000, 16_000)
