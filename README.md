@@ -26,7 +26,7 @@ model-index:
     metrics:
        - name: Test CER
          type: cer
-         value: 17.81 
+         value: 15.36
 ---
 
 # Wav2Vec2-Large-XLSR-53-Cantonese
@@ -143,7 +143,7 @@ class CER(datasets.Metric):
 ```
 
 
-**Test Result**: 17.81 % 
+**Test Result**: 15.36 % 
 
 
 ## Training

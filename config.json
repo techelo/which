@@ -1,5 +1,5 @@
 {
-  "_name_or_path": "facebook/wav2vec2-large-xlsr-53",
+  "_name_or_path": "../wav2vec2-large-xlsr-cantonese",
   "activation_dropout": 0.0,
   "apply_spec_augment": true,
   "architectures": [
