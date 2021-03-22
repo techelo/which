@@ -85,15 +85,7 @@ import re
 import argparse
 
 lang_id = "zh-HK" 
-model_id = "ctl/wav2vec2-large-xlsr-cantonese" 
-
-parser = argparse.ArgumentParser(description='hanles checkpoint loading')
-parser.add_argument('--checkpoint', type=str, default=None)
-args = parser.parse_args()
-model_path = model_id
-if args.checkpoint is not None:
-    model_path += "/checkpoint-" + args.checkpoint
-
+model_id = "ctl/wav2vec2-large-xlsr-cantonese"
 
 chars_to_ignore_regex = '[\,\?\.\!\-\;\:"\“\%\‘\”\�\．\⋯\！\－\：\–\。\》\,\）\,\？\；\～\~\…\︰\，\（\」\‧\《\﹔\、\—\／\,\「\﹖\·\']'
 
