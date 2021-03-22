@@ -73,7 +73,7 @@ print("Reference:", test_dataset["sentence"][:2])
 
 ## Evaluation
 
-The model can be evaluated as follows on the {language} test data of Common Voice.  # TODO: replace #TODO: replace language with your {language}, *e.g.* French
+The model can be evaluated as follows on the Chinese (Hong Kong) test data of Common Voice. 
 
 
 ```python
