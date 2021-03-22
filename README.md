@@ -75,6 +75,8 @@ The model can be evaluated as follows on the {language} test data of Common Voic
 
 
 ```python
+!mkdir cer
+!wget -O cer/cer.py https://huggingface.co/ctl/wav2vec2-large-xlsr-cantonese/raw/main/cer.py
 import torch
 import torchaudio
 from datasets import load_dataset, load_metric
