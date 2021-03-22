@@ -1,5 +1,6 @@
 ---
-language: zh-HK, yue
+language: zh-HK
+language: yue
 datasets:
 - common_voice 
 metrics:
