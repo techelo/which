@@ -1,9 +1,78 @@
-Dataset: Common Voice zh-HK
-CER: 17.810267
+language: zh-HK
+datasets:
+- common_voice 
+metrics:
+- cer
+tags:
+- audio
+- automatic-speech-recognition
+- speech
+- xlsr-fine-tuning-week
+license: apache-2.0
+model-index:
+- name: wav2vec2-large-xlsr-cantonese
+  results:
+  - task: 
+      name: Speech Recognition
+      type: automatic-speech-recognition
+    dataset:
+      name: Common Voice zh-HK
+      type: common_voice
+      args: zh-HK
+    metrics:
+       - name: Test CER
+         type: cer
+         value: 17.81 
+---
 
-evaluation code
+# Wav2Vec2-Large-XLSR-53-Cantonese
 
-```python3
+Fine-tuned [facebook/wav2vec2-large-xlsr-53](https://huggingface.co/facebook/wav2vec2-large-xlsr-53) on Cantonese using the [Common Voice](https://huggingface.co/datasets/common_voice).
+When using this model, make sure that your speech input is sampled at 16kHz.
+
+## Usage
+
+The model can be used directly (without a language model) as follows:
+
+```python
+import torch
+import torchaudio
+from datasets import load_dataset
+from transformers import Wav2Vec2ForCTC, Wav2Vec2Processor
+
+test_dataset = load_dataset("common_voice", "zh-HK", split="test[:2%]")
+
+processor = Wav2Vec2Processor.from_pretrained("ctl/wav2vec2-large-xlsr-cantonese") 
+model = Wav2Vec2ForCTC.from_pretrained("ctl/wav2vec2-large-xlsr-cantonese")
+
+resampler = torchaudio.transforms.Resample(48_000, 16_000)
+
+# Preprocessing the datasets.
+# We need to read the aduio files as arrays
+def speech_file_to_array_fn(batch):
+	speech_array, sampling_rate = torchaudio.load(batch["path"])
+	batch["speech"] = resampler(speech_array).squeeze().numpy()
+	return batch
+
+test_dataset = test_dataset.map(speech_file_to_array_fn)
+inputs = processor(test_dataset["speech"][:2], sampling_rate=16_000, return_tensors="pt", padding=True)
+
+with torch.no_grad():
+	logits = model(inputs.input_values, attention_mask=inputs.attention_mask).logits
+
+predicted_ids = torch.argmax(logits, dim=-1)
+
+print("Prediction:", processor.batch_decode(predicted_ids))
+print("Reference:", test_dataset["sentence"][:2])
+```
+
+
+## Evaluation
+
+The model can be evaluated as follows on the {language} test data of Common Voice.  # TODO: replace #TODO: replace language with your {language}, *e.g.* French
+
+
+```python
 import torch
 import torchaudio
 from datasets import load_dataset, load_metric
@@ -12,7 +81,7 @@ import re
 import argparse
 
 lang_id = "zh-HK" 
-model_id = "./wav2vec2-large-xlsr-cantonese" 
+model_id = "ctl/wav2vec2-large-xlsr-cantonese" 
 
 parser = argparse.ArgumentParser(description='hanles checkpoint loading')
 parser.add_argument('--checkpoint', type=str, default=None)
@@ -59,27 +128,15 @@ result = test_dataset.map(evaluate, batched=True, batch_size=16)
 print("CER: {:2f}".format(100 * cer.compute(predictions=result["pred_strings"], references=result["sentence"])))
 ```
 
-Character Error Rate implementation
+### Character Error Rate implementation
 
-```python3
+Adapting code from [wer](https://github.com/huggingface/datasets/blob/master/metrics/wer/wer.py)
+
+```python
 @datasets.utils.file_utils.add_start_docstrings(_DESCRIPTION, _KWARGS_DESCRIPTION)
 class CER(datasets.Metric):
     def _info(self):
-        return datasets.MetricInfo(
-            description=_DESCRIPTION,
-            citation=_CITATION,
-            inputs_description=_KWARGS_DESCRIPTION,
-            features=datasets.Features(
-                {
-                    "predictions": datasets.Value("string", id="sequence"),
-                    "references": datasets.Value("string", id="sequence"),
-                }
-            ),
-            codebase_urls=["https://github.com/jitsi/jiwer/"],
-            reference_urls=[
-                "https://en.wikipedia.org/wiki/Word_error_rate",
-            ],
-        )
+    	...
 
     def _compute(self, predictions, references):
         preds = [char for seq in predictions for char in list(seq)]
@@ -87,4 +144,12 @@ class CER(datasets.Metric):
         return wer(refs, preds)
 ```
 
-will post the training code later.
+
+**Test Result**: 17.81 % 
+
+
+## Training
+
+The Common Voice `train`, `validation` were used for training.
+
+The script used for training will be posted [here](https://github.com/chutaklee/CantoASR)
