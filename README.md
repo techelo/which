@@ -54,15 +54,15 @@ resampler = torchaudio.transforms.Resample(48_000, 16_000)
 # Preprocessing the datasets.
 # We need to read the aduio files as arrays
 def speech_file_to_array_fn(batch):
-	speech_array, sampling_rate = torchaudio.load(batch["path"])
-	batch["speech"] = resampler(speech_array).squeeze().numpy()
-	return batch
+\tspeech_array, sampling_rate = torchaudio.load(batch["path"])
+\tbatch["speech"] = resampler(speech_array).squeeze().numpy()
+\treturn batch
 
 test_dataset = test_dataset.map(speech_file_to_array_fn)
 inputs = processor(test_dataset["speech"][:2], sampling_rate=16_000, return_tensors="pt", padding=True)
 
 with torch.no_grad():
-	logits = model(inputs.input_values, attention_mask=inputs.attention_mask).logits
+\tlogits = model(inputs.input_values, attention_mask=inputs.attention_mask).logits
 
 predicted_ids = torch.argmax(logits, dim=-1)
 
@@ -90,7 +90,7 @@ import argparse
 lang_id = "zh-HK" 
 model_id = "ctl/wav2vec2-large-xlsr-cantonese"
 
-chars_to_ignore_regex = '[\,\?\.\!\-\;\:"\“\%\‘\”\�\．\⋯\！\－\：\–\。\》\,\）\,\？\；\～\~\…\︰\，\（\」\‧\《\﹔\、\—\／\,\「\﹖\·\']'
+chars_to_ignore_regex = '[\\,\\?\\.\\!\\-\\;\\:"\\“\\%\\‘\\”\\�\\．\\⋯\\！\\－\\：\\–\\。\\》\\,\\）\\,\\？\\；\\～\\~\\…\\︰\\，\\（\\」\\‧\\《\\﹔\\、\\—\\／\\,\\「\\﹖\\·\\']'
 
 test_dataset = load_dataset("common_voice", f"{lang_id}", split="test") 
 cer = load_metric("./cer")
@@ -135,7 +135,7 @@ Adapting code from [wer](https://github.com/huggingface/datasets/blob/master/met
 @datasets.utils.file_utils.add_start_docstrings(_DESCRIPTION, _KWARGS_DESCRIPTION)
 class CER(datasets.Metric):
     def _info(self):
-    	...
+    \t...
 
     def _compute(self, predictions, references):
         preds = [char for seq in predictions for char in list(seq)]
@@ -144,7 +144,7 @@ class CER(datasets.Metric):
 ```
 
 
-**Test Result**: 15.36 % 
+**Test Result**: 15.51 % 
 
 
 ## Training
