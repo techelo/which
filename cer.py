@@ -1,4 +1,4 @@
- # coding=utf-8
+# coding=utf-8
 # Copyright 2021 The HuggingFace Datasets Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -66,8 +66,8 @@ where
 S is the number of substitutions,
 D is the number of deletions,
 I is the number of insertions,
-C is the number of correct words,
-N is the number of words in the reference (N=S+D+C).
+C is the number of correct characters,
+N is the number of characters in the reference (N=S+D+C).
 
 CER's output is always a number between 0 and 1. This value indicates the percentage of characters that were incorrectly predicted. The lower the value, the better the
 performance of the ASR system with a CER of 0 being a perfect score.
