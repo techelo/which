@@ -108,7 +108,7 @@ class CER(datasets.Metric):
             codebase_urls=["https://github.com/jitsi/jiwer/"],
             reference_urls=[
                 "https://en.wikipedia.org/wiki/Word_error_rate",
-                "https://sites.google.com/site/textdigitisation/qualitymeasures/computingerrorrates#whitespace",
+                "https://sites.google.com/site/textdigitisation/qualitymeasures/computingerrorrates",
             ],
         )
 
