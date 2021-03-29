@@ -88,7 +88,7 @@ Examples:
     >>> cer = datasets.load_metric("cer")
     >>> cer_score = cer.compute(predictions=predictions, references=references)
     >>> print(cer_score)
-    0.5
+    0.34146341463414637
 """
 
 
