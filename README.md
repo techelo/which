@@ -77,8 +77,6 @@ The model can be evaluated as follows on the Chinese (Hong Kong) test data of Co
 
 
 ```python
-!mkdir cer
-!wget -O cer/cer.py https://huggingface.co/ctl/wav2vec2-large-xlsr-cantonese/raw/main/cer.py
 !pip install jiwer
 import torch
 import torchaudio
@@ -93,7 +91,7 @@ model_id = "ctl/wav2vec2-large-xlsr-cantonese"
 chars_to_ignore_regex = '[\,\?\.\!\-\;\:"\“\%\‘\”\�\．\⋯\！\－\：\–\。\》\,\）\,\？\；\～\~\…\︰\，\（\」\‧\《\﹔\、\—\／\,\「\﹖\·\']'
 
 test_dataset = load_dataset("common_voice", f"{lang_id}", split="test") 
-cer = load_metric("./cer")
+cer = load_metric("cer")
 
 processor = Wav2Vec2Processor.from_pretrained(f"{model_id}") 
 model = Wav2Vec2ForCTC.from_pretrained(f"{model_id}") 
