@@ -1,7 +1,8 @@
 ---
 language: 
-- zh-HK
 - yue
+language_bcp47:
+- zh-HK
 datasets:
 - common_voice 
 metrics:
