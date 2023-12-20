@@ -1,33 +1,33 @@
 ---
-language: 
+language:
 - yue
-language_bcp47:
-- zh-HK
-datasets:
-- common_voice 
-metrics:
-- cer
-
+license: apache-2.0
 tags:
 - audio
 - automatic-speech-recognition
 - speech
 - xlsr-fine-tuning-week
-license: apache-2.0
+datasets:
+- common_voice
+metrics:
+- cer
+language_bcp47:
+- zh-HK
+base_model: facebook/wav2vec2-large-xlsr-53
 model-index:
 - name: wav2vec2-large-xlsr-cantonese
   results:
-  - task: 
-      name: Speech Recognition
+  - task:
       type: automatic-speech-recognition
+      name: Speech Recognition
     dataset:
       name: Common Voice zh-HK
       type: common_voice
       args: zh-HK
     metrics:
-       - name: Test CER
-         type: cer
-         value: 15.36
+    - type: cer
+      value: 15.36
+      name: Test CER
 ---
 
 # Wav2Vec2-Large-XLSR-53-Cantonese
